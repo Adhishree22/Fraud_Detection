@@ -49,8 +49,6 @@ def field_reconciliation_summary(dataframe):
     print("FIELD-LEVEL RECONCILIATION")
     display(reconciliation_df)
 
-    return reconciliation_df
-
 
 def create_missing_flags(dataframe):
 
@@ -64,9 +62,6 @@ def create_missing_flags(dataframe):
 
     for original_col, flag_col in missing_flag_columns.items():
         dataframe[flag_col] = (dataframe[original_col].isnull().astype(int))
-
-    print("MISSING FLAGS CREATED")
-    display(dataframe[list(missing_flag_columns.values())].head())
 
     return dataframe
 
@@ -111,8 +106,5 @@ def fraud_reconciliation_analysis(dataframe):
 
     summary = summary[["Identity_Status", "Transactions", "Fraud_Rate_Percent"]]
     summary = summary.sort_values(by="Fraud_Rate_Percent", ascending=False)
-
-    print("FRAUD RECONCILIATION ANALYSIS")
-    display(summary)
 
     return summary
