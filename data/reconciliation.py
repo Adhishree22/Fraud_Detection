@@ -63,6 +63,8 @@ def create_missing_flags(dataframe):
     for original_col, flag_col in missing_flag_columns.items():
         dataframe[flag_col] = (dataframe[original_col].isnull().astype(int))
 
+    print("Missing Flags Created")
+    
     return dataframe
 
 def identity_completeness_score(dataframe):

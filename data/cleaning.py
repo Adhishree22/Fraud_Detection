@@ -1,4 +1,6 @@
 
+import pandas as pd
+
 def fill_categorical_missing(dataframe, categorical_columns, fill_value="Unknown"):
 
     for col in categorical_columns:
