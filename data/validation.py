@@ -24,8 +24,6 @@ def schema_validation(dataframe, dataset_name):
 
     display(schema_df)
 
-    return schema_df
-
 
 def duplicate_validation(dataframe, subset_column, dataset_name):
 

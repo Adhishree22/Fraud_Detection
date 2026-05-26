@@ -15,6 +15,9 @@ def create_sample(transactions, identity, sample_size=100000, random_state=42):
 
     identity_sample = identity[identity["TransactionID"].isin(transactions_sample["TransactionID"])].copy()
 
+    print("\nSampled Transactions:", transactions_sample.shape)
+    print("Filtered Identity:", identity_sample.shape)
+
     return transactions_sample, identity_sample
 
 def remove_duplicates(dataframe, subset_column):
