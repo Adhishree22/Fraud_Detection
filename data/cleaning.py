@@ -66,5 +66,3 @@ def generate_cleaning_summary(dataframe):
     print("POST-CLEANING SUMMARY")
 
     display(summary)
-
-    return summary
