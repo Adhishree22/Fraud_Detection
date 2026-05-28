@@ -63,7 +63,7 @@ def generate_cleaning_summary(dataframe):
         ascending=False
     )
 
-    print("Post-Cleaning Summary")
+    print("Post-Cleaning Summary: ")
 
     display(summary)
 

@@ -20,7 +20,7 @@ def fraud_rate_analysis( dataframe, column_mapping, top_n=20, min_transactions=0
     summary = summary.sort_values(by="Fraud_Rate_Percent", ascending=False)
     summary = summary.head(top_n)
 
-    print(f"{label.upper()} Fraud Analysis")
+    print(f"{label} Fraud Analysis")
     display(summary)
     fraud_results[col] = summary
 
@@ -45,7 +45,7 @@ def advanced_fraud_segmentation( dataframe, column_mapping, min_transactions=50,
       summary = summary.sort_values( by=[ "Fraud_Contribution_Percent", "Fraud_Rate_Percent" ], ascending=False     )
       summary = summary.head(top_n)
 
-      print(f"{label.upper()} Advanced Fraud Segmentation")
+      print(f"{label} Advanced Fraud Segmentation")
       display(summary)
 
       final_results[col] = summary
@@ -103,7 +103,7 @@ def high_risk_entity_detection(dataframe,column,min_transactions=100,top_n=15 ):
   summary = summary.sort_values(by=["Fraud_Rate_Percent","Fraud_Transactions"],ascending=False)
   summary = summary.head(top_n)
 
-  print(f"High Risk {column.upper()} Detection")
+  print(f"High Risk {column} Detection")
   display(summary)
 
   return summary

@@ -19,7 +19,7 @@ def create_transaction_hour(dataframe):
 
     dataframe["TransactionHour"] = (dataframe["TransactionDT"] // 3600) % 24
 
-    print("Transaction Hour Feature Created")
+    print("\nTransaction Hour Feature Created")
     print(dataframe["TransactionHour"].value_counts().sort_index())
 
     return dataframe

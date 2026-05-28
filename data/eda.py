@@ -10,7 +10,7 @@ from scipy.stats import skew
 
 def numeric_summary_analysis(dataframe, columns, analysis_name):
 
-    print(f"{analysis_name.upper()} Summary")
+    print(f"{analysis_name} Summary")
     summary = (dataframe[columns].describe().round(2))
 
     display(summary)
@@ -36,7 +36,7 @@ def fraud_behavior_summary(dataframe, columns, analysis_name):
     summary_df = pd.DataFrame(summary_rows)
     summary_df = summary_df.sort_values(by="Difference", ascending=False)
 
-    print(f"{analysis_name.upper()} Fraud Comparison")
+    print(f"{analysis_name} Fraud Comparison")
 
     display(summary_df)
 
@@ -79,7 +79,7 @@ def outlier_analysis(dataframe, column):
     outliers = dataframe[(dataframe[column] < lower_bound) | (dataframe[column] > upper_bound)    ]
     outlier_pct = round((len(outliers) / len(dataframe)) * 100, 2)
 
-    print(f"{column.upper()} Outlier Analysis")
+    print(f"{column} Outlier Analysis")
 
     print("Lower Bound:", round(lower_bound, 2))
     print("Upper Bound:", round(upper_bound, 2))
@@ -124,7 +124,7 @@ def percentile_analysis(dataframe, column):
         "Value": percentile_values.values()
     })
 
-    print(f"{column.upper()} Percentile Analysis")
+    print(f"{column} Percentile Analysis")
 
     display(percentile_df)
 
