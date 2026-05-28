@@ -77,3 +77,15 @@ def create_transaction_time_category(dataframe):
     print(dataframe["Transaction_Time_Category"].value_counts().sort_index())
 
     return dataframe
+
+
+def create_high_zscore_flag(dataframe, threshold=2):
+
+    dataframe = dataframe.copy()
+
+    dataframe["High_ZScore_Flag"] = (dataframe["TransactionAmt_ZScore"].abs() >= threshold).astype(int)
+
+    print("\nHigh ZScore Flag Created")
+    print(dataframe["High_ZScore_Flag"].value_counts().sort_index())
+
+    return dataframe
