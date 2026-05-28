@@ -9,7 +9,7 @@ def dataset_overview(dataframe, dataset_name):
 
     display(dataframe.head())
 
-def schema_validation(dataframe, dataset_name)
+def schema_validation(dataframe, dataset_name):
 
     print(f"{dataset_name.upper()} Schema Validation")
 
