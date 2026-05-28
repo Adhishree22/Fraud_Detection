@@ -10,7 +10,7 @@ from scipy.stats import skew
 
 def numeric_summary_analysis(dataframe, columns, analysis_name):
 
-    print(f"{analysis_name.upper()} SUMMARY")
+    print(f"{analysis_name.upper()} Summary")
     summary = (dataframe[columns].describe().round(2))
 
     display(summary)
@@ -36,7 +36,7 @@ def fraud_behavior_summary(dataframe, columns, analysis_name):
     summary_df = pd.DataFrame(summary_rows)
     summary_df = summary_df.sort_values(by="Difference", ascending=False)
 
-    print(f"{analysis_name.upper()} FRAUD COMPARISON")
+    print(f"{analysis_name.upper()} Fraud Comparison")
 
     display(summary_df)
 
@@ -79,7 +79,7 @@ def outlier_analysis(dataframe, column):
     outliers = dataframe[(dataframe[column] < lower_bound) | (dataframe[column] > upper_bound)    ]
     outlier_pct = round((len(outliers) / len(dataframe)) * 100, 2)
 
-    print(f"{column.upper()} OUTLIER ANALYSIS")
+    print(f"{column.upper()} Outlier Analysis")
 
     print("Lower Bound:", round(lower_bound, 2))
     print("Upper Bound:", round(upper_bound, 2))
@@ -104,7 +104,7 @@ def skewness_analysis(dataframe,columns):
     skew_df = pd.DataFrame(skew_results)
     skew_df = skew_df.sort_values(by="Skewness", ascending=False)
 
-    print("SKEWNESS ANALYSIS")
+    print("Skewness Analysis")
 
     display(skew_df)
 
@@ -124,7 +124,7 @@ def percentile_analysis(dataframe, column):
         "Value": percentile_values.values()
     })
 
-    print(f"{column.upper()} PERCENTILE ANALYSIS")
+    print(f"{column.upper()} Percentile Analysis")
 
     display(percentile_df)
 
@@ -153,7 +153,7 @@ def fraud_rate_by_bucket(dataframe):
     summary = summary[["Amount_Bucket", "Transactions", "Fraud_Rate_Percent"]]
     summary = summary.sort_values(by="Fraud_Rate_Percent", ascending=False)
 
-    print("FRAUD RATE BY AMOUNT BUCKET")
+    print("Fraud Rate By Amount Bucket")
 
     display(summary)
 

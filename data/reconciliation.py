@@ -5,7 +5,7 @@ def merge_datasets(transactions_df, identity_df):
 
     merged_df = transactions_df.merge(identity_df, on="TransactionID", how="left")
 
-    print("DATASET MERGE COMPLETED")
+    print("Dataset Merge Completed")
     print("Merged Shape:", merged_df.shape)
 
     return merged_df
@@ -17,7 +17,7 @@ def reconciliation_summary(dataframe):
     missing_identity = (dataframe[identity_columns].isnull().all(axis=1).sum())
     missing_pct = round((missing_identity / len(dataframe)) * 100, 2)
 
-    print("RECONCILIATION SUMMARY")
+    print("Reconciliation Summary")
     print("Fully Missing Identity Rows:", missing_identity)
     print("Missing Identity Percentage:", missing_pct, "%")
 
@@ -46,9 +46,10 @@ def field_reconciliation_summary(dataframe):
 
     reconciliation_df = pd.DataFrame(reconciliation_results)
 
-    print("FIELD-LEVEL RECONCILIATION")
+    print("Field-Level Reconciliation")
     display(reconciliation_df)
 
+    return reconciliation_df
 
 def create_missing_flags(dataframe):
 
@@ -64,7 +65,7 @@ def create_missing_flags(dataframe):
         dataframe[flag_col] = (dataframe[original_col].isnull().astype(int))
 
     print("Missing Flags Created")
-    
+
     return dataframe
 
 def identity_completeness_score(dataframe):
@@ -73,7 +74,7 @@ def identity_completeness_score(dataframe):
 
     dataframe["Identity_Completeness_Score"] = (dataframe[identity_columns].notnull().sum(axis=1))
 
-    print("IDENTITY COMPLETENESS SCORE")
+    print("Identity Completeness Score")
     print(dataframe["Identity_Completeness_Score"].value_counts().sort_index())
 
     return dataframe
@@ -91,7 +92,7 @@ def classify_identity_status(dataframe):
 
     dataframe["Identity_Status"] = (dataframe["Identity_Completeness_Score"].apply(classify_identity))
 
-    print("IDENTITY STATUS DISTRIBUTION")
+    print("Identity Status Distribution")
     print(dataframe["Identity_Status"].value_counts())
 
     return dataframe

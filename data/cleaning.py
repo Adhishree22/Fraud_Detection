@@ -6,7 +6,7 @@ def fill_categorical_missing(dataframe, categorical_columns, fill_value="Unknown
     for col in categorical_columns:
         dataframe[col] = (dataframe[col].fillna(fill_value))
 
-    print("CATEGORICAL MISSING VALUES FILLED")
+    print("Categorical Missing Values Filled")
 
     return dataframe
 
@@ -16,7 +16,7 @@ def fill_numeric_missing(dataframe, numeric_columns, fill_value=0):
     for col in numeric_columns:
         dataframe[col] = (dataframe[col].fillna(fill_value))
 
-    print("NUMERIC MISSING VALUES FILLED")
+    print("Numeric Missing Values Filled")
 
     return dataframe
 
@@ -25,7 +25,7 @@ def fill_address_missing(dataframe):
     dataframe["addr1"] = (dataframe["addr1"].fillna(-1))
     dataframe["addr2"] = (dataframe["addr2"].fillna(-1))
 
-    print("ADDRESS FIELDS CLEANED")
+    print("Address Fields Cleaned")
 
     return dataframe
 
@@ -34,7 +34,7 @@ def standardize_email_domains(dataframe, email_columns):
     for col in email_columns:
         dataframe[col] = (dataframe[col].str.lower().str.strip())
 
-    print("EMAIL DOMAINS STANDARDIZED")
+    print("Email Domains Standardized")
 
     return dataframe
 
@@ -44,7 +44,7 @@ def clean_identity_columns(dataframe, identity_columns):
     for col in identity_columns:
         dataframe[col] = (dataframe[col].fillna("Unknown").astype(str).str.strip())
 
-    print("IDENTITY COLUMNS STANDARDIZED")
+    print("Identity Columns Standardized")
 
     return dataframe
 
@@ -63,6 +63,8 @@ def generate_cleaning_summary(dataframe):
         ascending=False
     )
 
-    print("POST-CLEANING SUMMARY")
+    print("Post-Cleaning Summary")
 
     display(summary)
+
+    return summary

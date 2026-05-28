@@ -4,14 +4,14 @@ import numpy as np
 
 def dataset_overview(dataframe, dataset_name):
 
-    print(f"{dataset_name.upper()} OVERVIEW")
+    print(f"{dataset_name.upper()} Overview")
     print("Shape:", dataframe.shape)
 
     display(dataframe.head())
 
-def schema_validation(dataframe, dataset_name):
+def schema_validation(dataframe, dataset_name)
 
-    print(f"{dataset_name.upper()} SCHEMA VALIDATION")
+    print(f"{dataset_name.upper()} Schema Validation")
 
     schema_df = pd.DataFrame({
         "Column": dataframe.columns,
@@ -24,11 +24,13 @@ def schema_validation(dataframe, dataset_name):
 
     display(schema_df)
 
+    return schema_df
+
 
 def duplicate_validation(dataframe, subset_column, dataset_name):
 
     duplicate_count = dataframe.duplicated(subset=subset_column).sum()
-    print(f"{dataset_name.upper()} DUPLICATE VALIDATION")
+    print(f"{dataset_name.upper()} Duplicate Validation")
     print(f"Duplicate Count: {duplicate_count}")
 
 
