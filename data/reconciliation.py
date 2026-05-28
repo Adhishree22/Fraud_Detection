@@ -17,7 +17,7 @@ def reconciliation_summary(dataframe):
     missing_identity = (dataframe[identity_columns].isnull().all(axis=1).sum())
     missing_pct = round((missing_identity / len(dataframe)) * 100, 2)
 
-    print("Reconciliation Summary")
+    print("\nReconciliation Summary")
     print("Fully Missing Identity Rows:", missing_identity)
     print("Missing Identity Percentage:", missing_pct, "%")
 

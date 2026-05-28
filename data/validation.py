@@ -4,14 +4,14 @@ import numpy as np
 
 def dataset_overview(dataframe, dataset_name):
 
-    print(f"{dataset_name} Overview")
+    print(f"\n{dataset_name} Overview")
     print("Shape:", dataframe.shape)
 
     display(dataframe.head())
 
 def schema_validation(dataframe, dataset_name):
 
-    print(f"{dataset_name} Schema Validation")
+    print(f"\n{dataset_name} Schema Validation")
 
     schema_df = pd.DataFrame({
         "Column": dataframe.columns,
