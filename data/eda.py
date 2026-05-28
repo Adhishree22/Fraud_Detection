@@ -137,7 +137,7 @@ def correlation_analysis(dataframe, columns):
 
     plt.figure(figsize=(12, 8))
 
-    sns.heatmap(correlation_matrix, annot=True, cmap="coolwarm")
+    sns.heatmap(correlation_matrix, annot=True, cmap="RdBu")
 
     plt.title("Correlation Matrix")
     plt.show()
