@@ -35,7 +35,7 @@ def advanced_fraud_segmentation( dataframe, column_mapping, min_transactions=50,
     final_results = {}
 
     for col, label in column_mapping.items():
-      
+
       summary = ( dataframe .groupby(col)["isFraud"] .agg([ "count", "sum", "mean" ]) .reset_index())
       summary = summary.rename(columns={ "count": "Total_Transactions", "sum": "Fraud_Transactions", "mean": "Fraud_Rate"     })
       summary["Non_Fraud_Transactions"] = ( summary["Total_Transactions"] - summary["Fraud_Transactions"]     )
@@ -95,7 +95,7 @@ def transaction_hour_fraud_analysis( dataframe ):
 # High Risk Entity Detection
 
 def high_risk_entity_detection(dataframe,column,min_transactions=100,top_n=15 ):
-  
+
   summary = (dataframe.groupby(column)["isFraud"].agg(["count","sum","mean"]).reset_index())
   summary = summary.rename(columns={"count": "Transactions","sum": "Fraud_Transactions","mean": "Fraud_Rate"})
   summary["Fraud_Rate_Percent"] = (summary["Fraud_Rate"] * 100).round(2)
@@ -125,4 +125,19 @@ def missing_flag_analysis( dataframe, flag_columns ):
 
     display(final_summary)
 
-    return final_summary
+    return 
+    
+
+def fraud_concentration_analysis(dataframe, column):
+
+    summary = (dataframe.groupby(column)["isFraud"].agg(["count", "sum", "mean"]).reset_index())
+    summary = summary.rename(columns={"count": "Transactions","sum": "Fraud_Transactions","mean": "Fraud_Rate"})
+    summary["Fraud_Rate_Percent"] = (summary["Fraud_Rate"] * 100).round(2)
+    total_fraud = summary["Fraud_Transactions"].sum()
+    summary["Fraud_Contribution_Percent"] = (summary["Fraud_Transactions"] / total_fraud * 100).round(2)
+    summary = summary.sort_values(by="Fraud_Contribution_Percent",ascending=False)
+
+    print(f"{column} Fraud Concentration Analysis")
+    display(summary)
+
+    return summary
