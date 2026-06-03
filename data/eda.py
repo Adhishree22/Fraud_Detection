@@ -9,7 +9,7 @@ from scipy.stats import skew
 
 
 def numeric_summary_analysis(dataframe, columns, analysis_name):
-  
+
   print(f"{analysis_name} Summary")
   summary = (dataframe[columns].describe().round(2))
 
@@ -20,7 +20,7 @@ def numeric_summary_analysis(dataframe, columns, analysis_name):
 
 
 def fraud_behavior_summary(dataframe, columns, analysis_name):
-  
+
   summary_rows = []
 
   for col in columns:
@@ -45,9 +45,9 @@ def fraud_behavior_summary(dataframe, columns, analysis_name):
 
 
 def distribution_plot(dataframe, column, bins=50):
-  
+
   plt.figure(figsize=(12, 6))
-  
+
   sns.histplot(dataframe[column], bins=bins, kde=True)
 
   plt.title(f"{column} Distribution")
@@ -58,7 +58,7 @@ def distribution_plot(dataframe, column, bins=50):
 
 
 def fraud_distribution_plot(dataframe, column):
-  
+
   plt.figure(figsize=(12, 6))
 
   sns.boxplot(x="isFraud", y=column, data=dataframe)
@@ -71,7 +71,7 @@ def fraud_distribution_plot(dataframe, column):
 
 
 def outlier_analysis(dataframe, column):
-  
+
   q1 = dataframe[column].quantile(0.25)
   q3 = dataframe[column].quantile(0.75)
 
@@ -95,7 +95,7 @@ def outlier_analysis(dataframe, column):
 
 
 def percentile_analysis(dataframe, column):
-  
+
   percentiles = [ 0.50, 0.75, 0.90, 0.95, 0.99 ]
   percentile_values = {
      f"{int(p * 100)}th Percentile": round(dataframe[column].quantile(p), 2)
@@ -114,7 +114,7 @@ def percentile_analysis(dataframe, column):
 
 
 def skewness_analysis(dataframe,columns):
-  
+
   skew_results = []
 
   for col in columns:
@@ -134,7 +134,7 @@ def skewness_analysis(dataframe,columns):
 
 
 def correlation_analysis(dataframe, columns):
-  
+
   correlation_matrix = (dataframe[columns].corr().round(2))
 
   plt.figure(figsize=(12, 8))
@@ -147,9 +147,8 @@ def correlation_analysis(dataframe, columns):
   return correlation_matrix
 
 
-
 def fraud_correlation_analysis(dataframe, columns):
-  
+
   corr = dataframe[columns + ["isFraud"]].corr()
 
   fraud_corr = (corr["isFraud"].drop("isFraud").sort_values(key=abs,ascending=False).reset_index())
@@ -162,9 +161,8 @@ def fraud_correlation_analysis(dataframe, columns):
   return fraud_corr
 
 
-
 def fraud_lift_analysis(dataframe, columns):
-  
+
   results = []
 
   overall_fraud_rate = ( dataframe["isFraud"].mean())
@@ -191,7 +189,7 @@ def fraud_lift_analysis(dataframe, columns):
 
 
 def velocity_risk_analysis(dataframe, columns):
-  
+
   results = []
 
   for col in columns:
@@ -211,3 +209,15 @@ def velocity_risk_analysis(dataframe, columns):
   display(result_df)
 
   return result_df
+
+
+def cardinality_overview(dataframe):
+
+    cardinality = pd.DataFrame({"Column": dataframe.columns,"Unique_Values": [dataframe[col].nunique(dropna=True) for col in dataframe.columns]})
+
+    cardinality = cardinality.sort_values(by="Unique_Values",ascending=False)
+
+    print("Cardinality Overview")
+    display(cardinality)
+
+    return cardinality
