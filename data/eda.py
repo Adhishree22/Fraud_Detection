@@ -228,3 +228,59 @@ def distribution_analysis(dataframe, column_mapping, top_n=20 ):
         display(summary)
 
     return
+
+
+def missing_signal_fraud_analysis(df, target_col='isFraud'):
+
+    results = []
+
+    features = [
+        'TransactionAmt', 'ProductCD',
+        'card1', 'card2', 'card3', 'card4', 'card5', 'card6',
+        'addr1', 'addr2',
+        'dist1', 'dist2',
+        'P_emaildomain', 'R_emaildomain',
+        'C1', 'C2', 'C5', 'C6', 'C11', 'C12',
+        'D1', 'D2', 'D3', 'D4', 'D10', 'D15',
+        'M1', 'M2', 'M3', 'M4', 'M5', 'M6', 'M7', 'M8', 'M9'
+    ]
+
+    total_rows = len(df)
+
+    for col in features:
+
+        missing_mask = df[col].isna()
+        present_mask = ~missing_mask
+
+        missing_count = missing_mask.sum()
+        present_count = present_mask.sum()
+
+        missing_pct = round((missing_count / total_rows) * 100,2)
+
+        fraud_rate_missing = (df.loc[missing_mask, target_col].mean()if missing_count > 0 else np.nan)
+
+        fraud_rate_present = (df.loc[present_mask, target_col].mean()if present_count > 0 else np.nan)
+
+        fraud_rate_missing_pct = (round(fraud_rate_missing * 100, 2)if pd.notnull(fraud_rate_missing)else np.nan)
+
+        fraud_rate_present_pct = (round(fraud_rate_present * 100, 2)if pd.notnull(fraud_rate_present)else np.nan)
+
+        fraud_lift = (round(fraud_rate_missing / fraud_rate_present, 2)if (pd.notnull(fraud_rate_missing) and pd.notnull(fraud_rate_present) and fraud_rate_present > 0)else np.nan)
+
+        results.append({
+            'Feature': col,
+            'Missing_Count': missing_count,
+            'Present_Count': present_count,
+            'Missing_Pct': missing_pct,
+            'Fraud_Rate_Missing_Pct': fraud_rate_missing_pct,
+            'Fraud_Rate_Present_Pct': fraud_rate_present_pct,
+            'Fraud_Lift': fraud_lift
+        })
+
+    results_df = pd.DataFrame(results)
+
+    return results_df.sort_values(
+        by='Fraud_Lift',
+        ascending=False,
+        na_position='last'
+    ).reset_index(drop=True)
