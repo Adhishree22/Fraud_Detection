@@ -155,3 +155,14 @@ def numeric_overview(dataframe):
     display(summary)
 
     return summary
+
+def cardinality_overview(dataframe):
+
+    cardinality = pd.DataFrame({"Column": dataframe.columns,"Unique_Values": [dataframe[col].nunique(dropna=True) for col in dataframe.columns]})
+
+    cardinality = cardinality.sort_values(by="Unique_Values",ascending=False)
+
+    print("Cardinality Overview")
+    display(cardinality)
+
+    return cardinality

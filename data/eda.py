@@ -211,13 +211,20 @@ def velocity_risk_analysis(dataframe, columns):
   return result_df
 
 
-def cardinality_overview(dataframe):
+def distribution_analysis(dataframe, column_mapping, top_n=20 ):
 
-    cardinality = pd.DataFrame({"Column": dataframe.columns,"Unique_Values": [dataframe[col].nunique(dropna=True) for col in dataframe.columns]})
+    for col, label in column_mapping.items():
 
-    cardinality = cardinality.sort_values(by="Unique_Values",ascending=False)
+        print(f"\n{label} Distribution")
 
-    print("Cardinality Overview")
-    display(cardinality)
+        counts = dataframe[col].value_counts(dropna=False).head(top_n)
+        percentages = ( dataframe[col].value_counts(normalize=True, dropna=False ).head(top_n) * 100).round(2)
 
-    return cardinality
+        summary = pd.DataFrame({
+            "Count": counts,
+            "Percentage": percentages
+        })
+
+        display(summary)
+
+    return
