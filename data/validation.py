@@ -42,7 +42,7 @@ def schema_validation(dataframe, missing_only=False):
     schema_df = schema_df.sort_values(
         by="Missing_Percentage",
         ascending=False
-    )
+    ).reset_index(drop=True)
 
     display(schema_df)
 
