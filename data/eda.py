@@ -187,7 +187,7 @@ def fraud_lift_analysis(dataframe, columns):
 
   return result_df
 
-
+#Velocity Features
 def velocity_risk_analysis(dataframe, columns):
 
   results = []
@@ -210,7 +210,7 @@ def velocity_risk_analysis(dataframe, columns):
 
   return result_df
 
-
+#Categorical Columns
 def distribution_analysis(dataframe, column_mapping, top_n=20 ):
 
     for col, label in column_mapping.items():
@@ -248,16 +248,22 @@ def missing_signal_fraud_analysis(df, target_col='isFraud'):
     total_rows = len(df)
 
     for col in features:
-
+      
+        total_fraud = df[target_col].sum()
+		
         missing_mask = df[col].isna()
         present_mask = ~missing_mask
 
         missing_count = missing_mask.sum()
         present_count = present_mask.sum()
+        
+        missing_fraud_transactions = (df.loc[missing_mask, target_col].sum() )
 
         missing_pct = round((missing_count / total_rows) * 100, 2)
 
         present_pct = round((present_count / total_rows) * 100, 2)
+        
+        fraud_contribution_pct = round((missing_fraud_transactions / total_fraud) * 100, 2 )
 
         fraud_rate_missing = (df.loc[missing_mask, target_col].mean()if missing_count > 0 else np.nan)
 
@@ -268,17 +274,15 @@ def missing_signal_fraud_analysis(df, target_col='isFraud'):
         fraud_rate_present_pct = (round(fraud_rate_present * 100, 2)if pd.notnull(fraud_rate_present)else np.nan)
 
         fraud_lift = (round(fraud_rate_missing /    fraud_rate_present,    2)if (pd.notnull(fraud_rate_missing) and pd.notnull(fraud_rate_present) and fraud_rate_present > 0)else np.nan)
-        
-        overall_fraud_rate_pct = round(df[target_col].mean() * 100, 2 )
 
         results.append({
             'Feature': col,
-            'Total_Count': total_rows,
             'Missing_Count': missing_count,
             'Present_Count': present_count,
             'Missing_Pct': missing_pct,
             'Present_Pct': present_pct,
-			'Overall_Fraud_Rate_Pct': overall_fraud_rate_pct,
+            'Missing_Fraud_Transactions': missing_fraud_transactions,
+            'Fraud_Contribution_Pct': fraud_contribution_pct,
             'Fraud_Rate_Missing_Pct': fraud_rate_missing_pct,
             'Fraud_Rate_Present_Pct': fraud_rate_present_pct,
             'Fraud_Lift': fraud_lift
