@@ -4,49 +4,31 @@ import numpy as np
 
 def dataset_overview(dataframe, dataset_name):
 
-    print(f"\n{'='*60}")
+    rows = dataframe.shape[0]
+    columns = dataframe.shape[1]
+
+    missing_cells = dataframe.isnull().sum().sum()
+    total_cells = rows * columns
+
+    missing_pct = round((missing_cells / total_cells) * 100, 2) if total_cells > 0 else 0
+
+    duplicate_rows = dataframe.duplicated().sum()
+    duplicate_pct = round((duplicate_rows / rows) * 100, 2) if rows > 0 else 0
+
     print(f"{dataset_name} Overview")
-    print(f"{'='*60}")
-
-    print("Rows:", dataframe.shape[0])
-    print("Columns:", dataframe.shape[1])
-
     display(dataframe.head())
 
-    return pd.DataFrame({
-        "Dataset": [dataset_name],
-        "Rows": [dataframe.shape[0]],
-        "Columns": [dataframe.shape[1]]
-    })
-
-
-def dataset_summary(dataframe, dataset_name):
-
     summary = pd.DataFrame({
-        "Metric": [
-            "Rows",
-            "Columns",
-            "Missing Cells",
-            "Duplicate Rows"
-        ],
-        "Value": [
-            dataframe.shape[0],
-            dataframe.shape[1],
-            dataframe.isnull().sum().sum(),
-            dataframe.duplicated().sum()
-        ]
+        "Metric": ["Rows", "Columns", "Missing Cells", "Missing Percent", "Duplicate Rows", "Duplicate Percent"],
+        "Value": [rows, columns, missing_cells, f"{missing_pct}%", duplicate_rows, f"{duplicate_pct}%"]
     })
-
-    print(f"\n{dataset_name} Summary")
 
     display(summary)
 
     return summary
 
 
-def schema_validation(dataframe, dataset_name):
-
-    print(f"\n{dataset_name} Schema Validation")
+def schema_validation(dataframe, missing_only=False):
 
     schema_df = pd.DataFrame({
         "Column": dataframe.columns,
@@ -56,6 +38,11 @@ def schema_validation(dataframe, dataset_name):
             dataframe.isnull().mean() * 100
         ).round(2).values
     })
+
+    if missing_only:
+        schema_df = schema_df[
+            schema_df["Missing_Count"] > 0
+        ]
 
     schema_df = schema_df.sort_values(
         by="Missing_Percentage",
@@ -67,75 +54,17 @@ def schema_validation(dataframe, dataset_name):
     return schema_df
 
 
-def missing_value_analysis(dataframe):
-
-    missing_df = pd.DataFrame({
-        "Column": dataframe.columns,
-        "Missing_Count": dataframe.isnull().sum().values,
-        "Missing_Percentage": (
-            dataframe.isnull().mean() * 100
-        ).round(2).values
-    })
-
-    missing_df = missing_df[
-        missing_df["Missing_Count"] > 0
-    ]
-
-    missing_df = missing_df.sort_values(
-        by="Missing_Percentage",
-        ascending=False
-    )
-
-    print("\nMissing Value Analysis")
-
-    display(missing_df)
-
-    return missing_df
-
-
-def duplicate_validation(
-    dataframe,
-    subset_column,
-    dataset_name
-):
-
-    duplicate_count = dataframe.duplicated(
-        subset=subset_column
-    ).sum()
-
-    result = pd.DataFrame({
-        "Dataset": [dataset_name],
-        "Duplicate_Count": [duplicate_count]
-    })
-
-    print(f"\n{dataset_name} Duplicate Validation")
-
-    display(result)
-
-    return result
-
-
 def fraud_distribution(dataframe):
 
-    summary = (
-        dataframe["isFraud"]
-        .value_counts()
-        .reset_index()
-    )
+    summary = (dataframe["isFraud"].value_counts().reset_index())
 
-    summary.columns = [
-        "Fraud_Label",
-        "Count"
-    ]
+    summary.columns = ["Fraud_Label","Count"]
 
-    summary["Percentage"] = (
-        summary["Count"]
-        / len(dataframe)
-        * 100
-    ).round(2)
+    summary["Percentage"] = (summary["Count"]/ len(dataframe)* 100).round(2)
 
-    print("\nFraud Distribution")
+    overall_fraud_rate = round(dataframe["isFraud"].mean() * 100,2)
 
+    print(f"\nOverall Fraud Rate: "f"{overall_fraud_rate}%")
     display(summary)
 
     return summary
@@ -143,15 +72,9 @@ def fraud_distribution(dataframe):
 
 def numeric_overview(dataframe):
 
-    summary = (
-        dataframe
-        .describe()
-        .transpose()
-        .round(2)
-    )
+    summary = (dataframe.describe().transpose().round(2))
 
     print("\nNumeric Feature Overview")
-
     display(summary)
 
     return summary
