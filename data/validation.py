@@ -39,11 +39,6 @@ def schema_validation(dataframe, missing_only=False):
         ).round(2).values
     })
 
-    if missing_only:
-        schema_df = schema_df[
-            schema_df["Missing_Count"] > 0
-        ]
-
     schema_df = schema_df.sort_values(
         by="Missing_Percentage",
         ascending=False

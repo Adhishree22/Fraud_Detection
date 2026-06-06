@@ -255,7 +255,9 @@ def missing_signal_fraud_analysis(df, target_col='isFraud'):
         missing_count = missing_mask.sum()
         present_count = present_mask.sum()
 
-        missing_pct = round((missing_count / total_rows) * 100,2)
+        missing_pct = round((missing_count / total_rows) * 100, 2)
+
+        present_pct = round((present_count / total_rows) * 100, 2)
 
         fraud_rate_missing = (df.loc[missing_mask, target_col].mean()if missing_count > 0 else np.nan)
 
@@ -265,22 +267,23 @@ def missing_signal_fraud_analysis(df, target_col='isFraud'):
 
         fraud_rate_present_pct = (round(fraud_rate_present * 100, 2)if pd.notnull(fraud_rate_present)else np.nan)
 
-        fraud_lift = (round(fraud_rate_missing / fraud_rate_present, 2)if (pd.notnull(fraud_rate_missing) and pd.notnull(fraud_rate_present) and fraud_rate_present > 0)else np.nan)
+        fraud_lift = (round(fraud_rate_missing /    fraud_rate_present,    2)if (pd.notnull(fraud_rate_missing) and pd.notnull(fraud_rate_present) and fraud_rate_present > 0)else np.nan)
+        
+        overall_fraud_rate_pct = round(df[target_col].mean() * 100, 2 )
 
         results.append({
             'Feature': col,
+            'Total_Count': total_rows,
             'Missing_Count': missing_count,
             'Present_Count': present_count,
             'Missing_Pct': missing_pct,
+            'Present_Pct': present_pct,
+			'Overall_Fraud_Rate_Pct': overall_fraud_rate_pct,
             'Fraud_Rate_Missing_Pct': fraud_rate_missing_pct,
             'Fraud_Rate_Present_Pct': fraud_rate_present_pct,
             'Fraud_Lift': fraud_lift
         })
 
-    results_df = pd.DataFrame(results)
+    results_df = pd.DataFrame(results).sort_values(by='Fraud_Lift', ascending=False, na_position='last').reset_index(drop=True)
 
-    return results_df.sort_values(
-        by='Fraud_Lift',
-        ascending=False,
-        na_position='last'
-    ).reset_index(drop=True)
+    return results_df
