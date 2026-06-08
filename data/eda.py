@@ -248,32 +248,32 @@ def missing_signal_fraud_analysis(df, target_col='isFraud'):
     total_rows = len(df)
 
     for col in features:
-      
+
         total_fraud = df[target_col].sum()
-		
+
         missing_mask = df[col].isna()
         present_mask = ~missing_mask
 
         missing_count = missing_mask.sum()
         present_count = present_mask.sum()
-        
+
         missing_fraud_transactions = (df.loc[missing_mask, target_col].sum() )
 
         missing_pct = round((missing_count / total_rows) * 100, 2)
 
         present_pct = round((present_count / total_rows) * 100, 2)
-        
+
         fraud_contribution_pct = round((missing_fraud_transactions / total_fraud) * 100, 2 )
 
-        fraud_rate_missing = (df.loc[missing_mask, target_col].mean()if missing_count > 0 else np.nan)
+        fraud_rate_missing = (df.loc[missing_mask, target_col].mean()if missing_count > 0 else 0)
 
-        fraud_rate_present = (df.loc[present_mask, target_col].mean()if present_count > 0 else np.nan)
+        fraud_rate_present = (df.loc[present_mask, target_col].mean()if present_count > 0 else 0)
 
-        fraud_rate_missing_pct = (round(fraud_rate_missing * 100, 2)if pd.notnull(fraud_rate_missing)else np.nan)
+        fraud_rate_missing_pct = (round(fraud_rate_missing * 100, 2)if missing_count > 0 else 0)
 
-        fraud_rate_present_pct = (round(fraud_rate_present * 100, 2)if pd.notnull(fraud_rate_present)else np.nan)
+        fraud_rate_present_pct = (round(fraud_rate_present * 100, 2)if present_count > 0 else 0)
 
-        fraud_lift = (round(fraud_rate_missing /    fraud_rate_present,    2)if (pd.notnull(fraud_rate_missing) and pd.notnull(fraud_rate_present) and fraud_rate_present > 0)else np.nan)
+        fraud_lift = (round(fraud_rate_missing / fraud_rate_present, 2)if (missing_count > 0 and fraud_rate_present > 0)else 0)
 
         results.append({
             'Feature': col,
