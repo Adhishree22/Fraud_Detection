@@ -240,8 +240,6 @@ def missing_signal_fraud_analysis(df, target_col='isFraud'):
         'addr1', 'addr2',
         'dist1', 'dist2',
         'P_emaildomain', 'R_emaildomain',
-        'C1', 'C2', 'C5', 'C6', 'C11', 'C12',
-        'D1', 'D2', 'D3', 'D4', 'D10', 'D15',
         'M1', 'M2', 'M3', 'M4', 'M5', 'M6', 'M7', 'M8', 'M9'
     ]
 
