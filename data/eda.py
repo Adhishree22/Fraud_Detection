@@ -8,17 +8,6 @@ import seaborn as sns
 from scipy.stats import skew
 
 
-def numeric_summary_analysis(dataframe, columns, analysis_name):
-
-  print(f"{analysis_name} Summary")
-  summary = (dataframe[columns].describe().round(2))
-
-  display(summary)
-
-  return summary
-
-
-
 def fraud_behavior_summary(dataframe, columns, analysis_name):
 
   summary_rows = []
@@ -146,46 +135,6 @@ def correlation_analysis(dataframe, columns):
 
   return correlation_matrix
 
-
-def fraud_correlation_analysis(dataframe, columns):
-
-  corr = dataframe[columns + ["isFraud"]].corr()
-
-  fraud_corr = (corr["isFraud"].drop("isFraud").sort_values(key=abs,ascending=False).reset_index())
-
-  fraud_corr.columns = ["Feature","Correlation_With_Fraud"]
-
-  print("\nFraud Correlation Analysis")
-  display(fraud_corr)
-
-  return fraud_corr
-
-
-def fraud_lift_analysis(dataframe, columns):
-
-  results = []
-
-  overall_fraud_rate = ( dataframe["isFraud"].mean())
-
-  for col in columns:
-    threshold = dataframe[col].median()
-
-    high_group = dataframe[dataframe[col] >= threshold]
-
-    fraud_rate = (high_group["isFraud"].mean())
-
-    lift = fraud_rate / overall_fraud_rate
-
-    results.append({"Feature": col,"Fraud_Lift": round(lift, 2)})
-
-  result_df = pd.DataFrame(results)
-
-  result_df = result_df.sort_values( by="Fraud_Lift", ascending=False)
-
-  print("\nFraud Lift Analysis")
-  display(result_df)
-
-  return result_df
 
 #Categorical Columns
 def distribution_analysis(dataframe, column_mapping, top_n=20 ):
