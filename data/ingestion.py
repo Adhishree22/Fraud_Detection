@@ -9,18 +9,6 @@ def load_dataset(file_path, selected_columns):
 
     return dataframe
 
-'''def create_sample(transactions, identity, sample_size=100000, random_state=42):
-
-    transactions_sample = transactions.sample(n=sample_size, random_state=random_state    )
-
-    identity_sample = identity[identity["TransactionID"].isin(transactions_sample["TransactionID"])].copy()
-
-    print("\nSampled Transactions:", transactions_sample.shape)
-    print("Filtered Identity:", identity_sample.shape)
-
-    return transactions_sample, identity_sample
-'''
-
 def create_time_split(transactions, identity, sample_size=100000):
     """
     Selects a contiguous time-ordered slice of ~sample_size transactions,
