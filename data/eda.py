@@ -187,7 +187,6 @@ def fraud_lift_analysis(dataframe, columns):
 
   return result_df
 
-
 #Categorical Columns
 def distribution_analysis(dataframe, column_mapping, top_n=20 ):
 
