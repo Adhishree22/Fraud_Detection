@@ -187,28 +187,6 @@ def fraud_lift_analysis(dataframe, columns):
 
   return result_df
 
-#Velocity Features
-def velocity_risk_analysis(dataframe, columns):
-
-  results = []
-
-  for col in columns:
-
-    q75 = dataframe[col].quantile(0.75)
-
-    high_velocity = dataframe[dataframe[col] >= q75]
-
-    fraud_rate = (high_velocity["isFraud"].mean()* 100)
-
-    results.append({"Feature": col,"High_Velocity_Fraud_Rate":round(fraud_rate, 2)})
-
-  result_df = pd.DataFrame(results)
-  result_df = result_df.sort_values( by="High_Velocity_Fraud_Rate", ascending=False)
-
-  print("\nVelocity Risk Analysis")
-  display(result_df)
-
-  return result_df
 
 #Categorical Columns
 def distribution_analysis(dataframe, column_mapping, top_n=20 ):
