@@ -1,5 +1,0 @@
-risk_category,train_transactions,train_fraud_transactions,train_fraud_rate_percent,train_fraud_capture_percent,validation_transactions,validation_fraud_transactions,validation_fraud_rate_percent,validation_fraud_capture_percent
-Critical Risk,1239,237,19.13,11.73,634,55,8.68,10.19
-High Risk,5937,575,9.69,28.45,2659,159,5.98,29.44
-Medium Risk,23942,594,2.48,29.39,10399,186,1.79,34.44
-Low Risk,43870,615,1.4,30.43,11320,140,1.24,25.93
