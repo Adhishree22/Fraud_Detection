@@ -43,7 +43,7 @@ Fraud_Detection/
 │ ├── validation.py # Dataset overview, schema, cardinality checks
 │ └── eda.py # Distribution, outlier, skewness, correlation EDA
 │
-│ └── eda_and_time_split.ipynb # Raw-data EDA that informed SQL design choices
+│ └── Fraud_Detection.ipynb # Raw-data EDA that informed SQL design choices
 │
 ├── sql/
 │ ├── 01_ingestion/
